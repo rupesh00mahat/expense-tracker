@@ -27,27 +27,30 @@ function Overview() {
 
   return (
     <div id="overview">
-      <h2 className="text-center text-3xl mb-10">Overview</h2>
+      {(state.expense.length > 0 || state.income.length > 0) && <h2 className="text-center text-5xl mb-10 font-bold">Overview</h2>}
       <div className="info-container-list flex gap-20 justify-between text-center">
-        <ContainerItem title="Income" value={state.income} />
-        <ContainerItem title="Expense" value={state.expense} />
+        {state.income.length > 0 && <ContainerItem title="Income" value={state.income} />}
+        {state.expense.length > 0 && <ContainerItem title="Expense" value={state.expense} />}
       </div>
       <div className="category-container-wrapper flex gap-20 justify-between">
-        <ContainerCategoryItem value={state.income} type="Income" total={totalIncome}/>
-        <ContainerCategoryItem value={state.expense} type="Expense" total={totalExpense}/>
+        {state.income.length > 0 && <ContainerCategoryItem value={state.income} type="Income" total={totalIncome}/>}
+        {state.expense.length > 0 && <ContainerCategoryItem value={state.expense} type="Expense" total={totalExpense}/>}
       </div>
-      <PieChart
-  series={[
-    {
-      data: [
-        { id: 0, value: totalIncome, label: 'Income', color: "blue" },
-        { id: 1, value: totalExpense, label: 'Expense', color: "red" },
-      ],
-    },
-  ]}
-  width={400}
-  height={200}
-/>
+      {(state.income.length > 0 || state.expense.length > 0) && (
+        <PieChart
+        className="bg-white w-full block"
+        series={[
+          {
+            data: [
+              { id: 0, value: totalIncome, label: 'Income', color: "blue" },
+              { id: 1, value: totalExpense, label: 'Expense', color: "red" },
+            ],
+          },
+        ]}
+        width={400}
+        height={200}
+      />
+      )}
     </div>
   );
 }

@@ -31,8 +31,8 @@ const expenseTrackerReducer = (state, action) => {
 
 function ExpenseTrackerContextProvider({ children }) {
   const [state, dispatch] = useReducer(expenseTrackerReducer, {
-    income: [{amount: 50000, category: "salary"}, {amount: 20000, category: "share"}],
-    expense: [{amount: 10000, category: "rent"}],
+    income: [],
+    expense: [],
     totalIncome: 0,
     totalExpense: 0,
   });

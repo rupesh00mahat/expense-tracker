@@ -7,13 +7,13 @@ function ContainerCategoryItem({value,type, total}) {
       {value && value.map(({category, amount}, index)=>{
           const progressValue = parseInt(parseInt(amount)/parseInt(total)*100);
 
-        return <div key={`${index}`} className="category-items text-xl flex justify-between">
+        return <div key={`${index}`} className="category-items text-xl flex justify-between py-3">
         <div className="category-item-right w-full">
           <div className="info flex items-center justify-between">
             <span className="category-name">{category} </span>
             <span className="percentage-amount">{amount}</span>
           </div>
-          <div style={{"--progress-width": `${progressValue}%`}} className={`progress-loader w-full h-2 border border-red-400 rounded-md relative after:absolute after:h-full after:w-[${progressValue}%] after:bg-blue-500`}></div>
+          <div style={{"--progress-width": `${progressValue}%`}} className={`progress-loader w-full h-2 border border-[#e4e4e4] rounded-md relative after:absolute after:h-full after:w-[${progressValue}%] after:duration-1000 after:bg-white`}></div>
         </div>
       </div>
       })}

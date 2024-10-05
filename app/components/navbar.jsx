@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import {
   Popover,
   PopoverContent,
@@ -11,8 +11,18 @@ import { ExpenseTrackerContext } from "../context/expense-tracker-context";
 
 function Navbar() {
   const amountRef = useRef();
-  const amountTypeRef = useRef();
+  const [amountType, setAmountType] = useState("income");
   const categoryRef = useRef();
+
+  let incomeOptions = ["salary", "freelance", "stocks"];
+  let expenseOptions = [
+    "rent",
+    "education",
+    "food",
+    "clothes",
+    "travel",
+    "entertainment",
+  ];
 
   const { dispatch, state } = useContext(ExpenseTrackerContext);
 
@@ -21,7 +31,7 @@ function Navbar() {
       type: "ADD_DATA",
       payload: {
         amount: amountRef.current?.value,
-        amountType: amountTypeRef.current?.value,
+        amountType: amountType,
         category: categoryRef.current?.value,
       },
     });
@@ -30,13 +40,13 @@ function Navbar() {
   return (
     <div className="navbar flex justify-end">
       <Popover>
-        <PopoverTrigger className="border-2 border-solid border-black px-5 py-3 my-3 rounded-md hover:bg-black hover:text-white hover:shadow-lg hover:border-blue-500 transition-colors duration-300">
+        <PopoverTrigger className="border-2 border-solid border-white px-5 py-3 my-3 rounded-md hover:bg-black hover:text-white hover:shadow-lg hover:border-blue-500 transition-colors duration-300">
           Add Income / Expense
         </PopoverTrigger>
         <PopoverContent className="w-80 bg-black p-5 text-gray-600">
           <div className="grid gap-4">
             <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">
+              <p className="text-base text-muted-foreground ">
                 Add Income or expense
               </p>
             </div>
@@ -45,14 +55,20 @@ function Navbar() {
                 <Label htmlFor="width">Amount</Label>
                 <Input
                   id="width"
-                  defaultValue="100%"
+                  defaultValue="0"
                   className="col-span-2 h-8"
                   ref={amountRef}
                 />
               </div>
               <div className="grid grid-cols-3 items-center gap-4">
                 <Label htmlFor="amount-type">Amount Type</Label>
-                <select id="amount-type" ref={amountTypeRef}>
+                <select
+                  id="amount-type"
+                  value={amountType}
+                  onChange={(e) => {
+                    setAmountType(e.target.value);
+                  }}
+                >
                   <option value="income">Income</option>
                   <option value="expense">Expense</option>
                 </select>
@@ -63,50 +79,52 @@ function Navbar() {
                 <select
                   ref={categoryRef}
                   id="amount-type"
-                  class="w-[180px] bg-black p-5 text-gray-600"
+                  class="w-[180px] bg-black p-1 text-gray-600 border"
                 >
-                  <option value="" disabled selected>
-                    Select Amount Type
-                  </option>
-                  <option
-                    value="food"
-                    class="py-3 border-b border-b-gray-600 border-b-solid"
-                  >
-                    Food
-                  </option>
-                  <option
-                    value="travel"
-                    class="py-3 border-b border-b-gray-600 border-b-solid"
-                  >
-                    Travel
-                  </option>
-                  <option
-                    value="medical"
-                    class="py-3 border-b border-b-gray-600 border-b-solid"
-                  >
-                    Medical
-                  </option>
-                  <option
-                    value="education"
-                    class="py-3 border-b border-b-gray-600 border-b-solid"
-                  >
-                    Education
-                  </option>
-                  <option
-                    value="entertainment"
-                    class="py-3 border-b border-b-gray-600 border-b-solid"
-                  >
-                    Entertainment
-                  </option>
+                  {amountType == "income" && (
+                    <>
+                      <option value="" disabled selected>
+                        Select Amount Type
+                      </option>
+                      {incomeOptions &&
+                        incomeOptions.map((incomeItem, index) => (
+                          <option
+                            value={incomeItem}
+                            class="py-3 border-b border-b-gray-600 border-b-solid"
+                          >
+                            {incomeItem.toUpperCase()}
+                          </option>
+                        ))}
+                    </>
+                  )}
+                  {amountType == "expense" && (
+                    <>
+                      <option value="" disabled selected>
+                        Select Amount Type
+                      </option>
+                      {expenseOptions &&
+                        expenseOptions.map((expenseItem, index) => {
+                          return (
+                            <option
+                              key={`${expenseItem}-${index}`}
+                              value={expenseItem}
+                              class="py-3 border-b border-b-gray-600 border-b-solid"
+                            >
+                              {expenseItem.toUpperCase()}
+                            </option>
+                          );
+                        })}
+                    </>
+                  )}
                 </select>
               </div>
               <div className="grid grid-cols-3 items-center gap-4">
                 <button
+                  className="border p-1 bg-white text-black"
                   onClick={() => {
                     addData();
                   }}
                 >
-                  {" "}
                   Add Data
                 </button>
               </div>

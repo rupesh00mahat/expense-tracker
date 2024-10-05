@@ -67,4 +67,5 @@
 
 .progress-loader:after{
   width: var(--progress-width);
+  
 } 

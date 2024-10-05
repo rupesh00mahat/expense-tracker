@@ -1,7 +1,6 @@
 import Navbar from "@/app/components/navbar";
 import Overview from "@/app/components/overview";
-import ExpenseTrackerProvider from  "@/app/context/expense-tracker-context";
-
+import ExpenseTrackerProvider from "@/app/context/expense-tracker-context";
 
 export default function Home() {
   return (
